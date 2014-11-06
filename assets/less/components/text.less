@@ -1,0 +1,76 @@
+a.voted.text-upvote:hover,
+a.voted.text-upvote:focus,
+.text-upvote {
+  color: @orangered;
+}
+
+a.voted.text-downvote:hover,
+a.voted.text-downvote:focus,
+.text-downvote {
+  color: @periwinkle;
+}
+
+.label.label-default {
+  background: @gray-lighter;
+}
+
+.label.label-large {
+  font-size: 100%;
+}
+
+.text-subreddit {
+  color: @gray-light;
+}
+
+.label a:hover {
+  text-decoration: none;
+}
+
+.text-distinguished {
+  color: @brand-danger;
+}
+
+.linkbar {
+  display: inline-block;
+  margin: 0 0 (@row-spacing-base / 4) 0;
+  padding: 0;
+
+  > li {
+    padding: 0;
+    display: inline-block;
+    margin-right: 1em;
+  }
+}
+
+.list-compact-horizontal {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+
+  > li {
+    display: inline-block;
+    margin: 0;
+    padding: 0 .125em;
+  }
+}
+
+.text-muted a,
+.text-muted a:hover {
+  &:extend(.text-muted);
+}
+
+.logo-reddit.navbar-brand {
+  background: url('/img/logo.png') center right no-repeat;
+  width: 107px;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (-moz-min-device-pixel-ratio: 2),
+  only screen and (-o-min-device-pixel-ratio: 2/1),
+  only screen and (min-device-pixel-ratio: 2) {
+
+  .logo-reddit.navbar-brand {
+    background: url('/img/logo-2x.png') center right no-repeat;
+    background-size: 97px;
+  }
+}

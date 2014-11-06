@@ -1,0 +1,3 @@
+[submodule "lib/snooboots"]
+	path = lib/snooboots
+	url = git@github.com:reddit/snooboots.git
