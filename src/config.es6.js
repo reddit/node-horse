@@ -3,6 +3,7 @@
 
 var config = {
   debug: process.env.SWITCHAROO_DEBUG || true,
+  minifyAssets: process.env.MINIFY_ASSETS || false,
 
   origin: process.env.ORIGIN || 'http://localhost:4444',
   port: process.env.PORT || 4444,
