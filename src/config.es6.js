@@ -2,6 +2,8 @@
 // belongs in ./server instead.
 
 var config = {
+  debug: process.env.SWITCHAROO_DEBUG || true,
+
   origin: process.env.ORIGIN || 'http://localhost:4444',
   port: process.env.PORT || 4444,
   env: process.env.NODE_ENV || 'development',

@@ -119,6 +119,10 @@ router.use(function(req, res, next) {
 
     res.status(status).send(body);
   }).fail(function(response) {
+    if (config.debug) {
+      console.log(arguments);
+    }
+
     var status = response.status || 404;
     var body = response.body || '';
 
