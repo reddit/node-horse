@@ -13,6 +13,7 @@ var buildjs = build + '/js';
 var buildcss = build + '/css';
 
 var gulp = require('gulp');
+var livereload = require('gulp-livereload');
 
 var config = require('./src/config.es6.js').default;
 

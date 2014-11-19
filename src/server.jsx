@@ -41,6 +41,7 @@ var router = express.Router();
 var app = new App(config);
 
 // Private, server-only config that we don't put in config.js, which is shared
+config.liveReload = process.env.LIVERELOAD || true;
 config.cookieSecret = process.env.SWITCHAROO_COOKIE_SECRET || 'snoo';
 config.oauth = {
   clientId: process.env.OAUTH_CLIENT_ID || '',
@@ -107,11 +108,17 @@ router.use(function(req, res, next) {
   defer.promise.then(function(response) {
     var status = response.status || 200;
     var body = response.body || '';
+    var props = response.props;
+    var Layout = response.layout;
 
     if (body) {
       // If it's an object, it's probably React.
       if (typeof body === 'object') {
-        body = React.renderToString(body);
+        if (Layout) {
+          body = <Layout {...props}>{body}</Layout>;
+        }
+
+        body = React.renderToStaticMarkup(body);
       }
     } else {
       status = 204;
