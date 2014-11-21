@@ -26,7 +26,7 @@ module.exports = function buildJS(gulp, buildjs) {
     var bundler = browserify({
       cache: {},
       packageCache: {},
-      fullPaths: true,
+      //fullPaths: true,
       debug: true,
       extensions: ['.js', '.es6.js', '.jsx'],
     });
@@ -34,6 +34,15 @@ module.exports = function buildJS(gulp, buildjs) {
     if (watch) {
       bundler = watchify(bundler);
     }
+
+    bundler
+      .require('jquery')
+      .require('./lib/snooboots/dist/js/bootstrap.js', {
+        expose: 'bootstrap',
+        depends: {
+          'jquery': 'jQuery'
+        }
+      });
 
     bundler.add(entryFile);
 

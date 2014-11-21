@@ -13,6 +13,8 @@ class App {
   constructor (config) {
     this.config = config;
 
+    this.state = {};
+
     this.mutators = config.mutators || {};
 
     // The router listens to web requests (or html5 history changes) and fires

@@ -94,10 +94,24 @@ router.use(express.static(__dirname + '/../build'));
 router.use(express.static(__dirname + '/../public'));
 router.use(express.static(__dirname + '/../lib/snooboots/dist'));
 
+// Set up the ability to inject bootstrapping data, so the client doesn't have
+// to re-hit the server for initialization data
+function injectBootstrap(body, props) {
+  var bodyIndex = body.lastIndexOf('</body>');
+
+  var template = ['<script>var bootstrap=','</script>'];
+  template.splice(1, 0, JSON.stringify(props));
+
+  return body.slice(0, bodyIndex) + template.join('') + body.slice(bodyIndex);
+}
+
 // Set up the router to listen to ALL requests not caught by the static
 // directive aboves, and send them into the `App` React middleware instance.
 router.use(function(req, res, next) {
   var defer = q.defer();
+
+  // Gather all data before rendering.
+  req.renderSynchronous = true;
 
   // Express routes generally have a `req`, `res` format. In this case, we're
   // going to pass in a `defer` object that the route handler can `resolve` or
@@ -119,6 +133,7 @@ router.use(function(req, res, next) {
         }
 
         body = React.renderToStaticMarkup(body);
+        body = injectBootstrap(body, props);
       }
     } else {
       status = 204;
@@ -135,6 +150,7 @@ router.use(function(req, res, next) {
 
     if (typeof body === 'object') {
       body = React.renderToString(body);
+      body = injectBootstrap(body, props);
     }
 
     res.status(status).send(body);
