@@ -2,8 +2,9 @@
 // belongs in ./server instead.
 
 var config = {
-  debug: process.env.SWITCHAROO_DEBUG || true,
-  minifyAssets: process.env.MINIFY_ASSETS || false,
+  debug: process.env.SWITCHAROO_DEBUG === 'true',
+  minifyAssets: process.env.MINIFY_ASSETS === 'true',
+  liveReload: process.env.LIVERELOAD === 'true',
 
   origin: process.env.ORIGIN || 'http://localhost:4444',
   port: process.env.PORT || 4444,
