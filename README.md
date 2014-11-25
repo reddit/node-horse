@@ -1,7 +1,7 @@
-switcharoo-core
-==============
+switcharoo
+==========
 
-switcharoo-core is a web server and build system for building polymorphic
+switcharoo is a web server and build system for building polymorphic
 React applications in node. It is part of a larger series of plugins that,
 together, form frontend applications for reddit.
 
@@ -53,7 +53,7 @@ Plugins register themselves via two interfaces:
   `res.rejcet({ body: error, status: 400})`. (Body and status are optional in
   both cases, but should generally be added.)
   A complete example of route handling can be seen at
-  [switcharoo-plugin-core](https://github.com/ajacksified/switcharoo-plugin-core).
+  [switcharoo-plugin-core](https://github.com/reddit/switcharoo-plugin-core).
 2. Mutators that modify the rendering of react components. An element query
   syntax is provided, documentation forthcoming.
 
@@ -61,7 +61,7 @@ Plugins register themselves via two interfaces:
 Getting Up and Running
 ----------------------
 
-1. [Fork](https://github.com/ajacksified/switcharoo-plugin-core/fork) and clone
+1. [Fork](https://github.com/reddit/switcharoo/fork) and clone
   this project.
 2. Also fork and clone any plugins you plan on developing. In these, run
   `npm link` to cause the local version of the plugin to be linked to npm.
