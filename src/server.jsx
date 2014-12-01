@@ -27,12 +27,12 @@ import plugins from './plugins';
 import App from './app';
 
 // Import built-asset manifests for passing to layouts
-import * as jsManifest from '../build/js/app-manifest.json';
+import * as jsManifest from '../build/js/client-manifest.json';
 import * as cssManifest from '../build/css/css-manifest.json';
 
 // Then merge them into a single object for ease of use later
-var manifest = _.defaults({}, jsManifest, cssManifest);
-config.manifest = manifest;
+config.manifest = {};
+Object.assign(config.manifest, jsManifest, cssManifest);
 
 // Instantiate a new express router
 var router = express.Router();
@@ -68,7 +68,7 @@ server.set('port', app.config.port);
 // Configure the webserver, and set up middleware
 server.use(bodyParser.json());
 server.use(bodyParser.urlencoded({
-  extended: true
+  extended: true,
 }));
 
 server.use(compression());
@@ -82,7 +82,7 @@ server.use(session({
   cookie: {
     maxAge: 60000
   },
-  rolling: true
+  rolling: true,
 }));
 
 server.use(csurf());
@@ -98,11 +98,8 @@ router.use(express.static(__dirname + '/../lib/snooboots/dist'));
 // to re-hit the server for initialization data
 function injectBootstrap(body, props) {
   var bodyIndex = body.lastIndexOf('</body>');
-
-  var template = ['<script>var bootstrap=','</script>'];
-  template.splice(1, 0, JSON.stringify(props));
-
-  return body.slice(0, bodyIndex) + template.join('') + body.slice(bodyIndex);
+  var template = '<script>var bootstrap=' + JSON.stringify(props) + '</script>';
+  return body.slice(0, bodyIndex) + template + body.slice(bodyIndex);
 }
 
 // Set up the router to listen to ALL requests not caught by the static
@@ -127,8 +124,8 @@ router.use(function(req, res, next) {
 
     if (body) {
       // If it's an object, it's probably React.
-      if (typeof body === 'object') {
-        if (Layout) {
+      if (React.isValidElement(body)) {
+        if (React.isValidelement(Layout)) {
           body = <Layout {...props}>{body}</Layout>;
         }
 
@@ -147,8 +144,13 @@ router.use(function(req, res, next) {
 
     var status = response.status || 404;
     var body = response.body || '';
+    var Layout = response.layout;
 
-    if (typeof body === 'object') {
+    if (React.isValidElement(body)) {
+      if (React.isValidelement(Layout)) {
+        body = <Layout {...props}>{body}</Layout>;
+      }
+
       body = React.renderToString(body);
       body = injectBootstrap(body, props);
     }

@@ -21,7 +21,7 @@ module.exports = function buildJS(gulp, buildjs) {
   function compile(watch) {
     gutil.log('Starting browserify');
 
-    var entryFile = './assets/js/app.es6.js';
+    var entryFile = './assets/js/client.es6.js';
 
     var bundler = browserify({
       cache: {},
@@ -65,17 +65,17 @@ module.exports = function buildJS(gulp, buildjs) {
         .pipe(clean({force: true}));
 
       stream
-        .pipe(exorcist(buildjs + '/app.js.map'))
+        .pipe(exorcist(buildjs + '/client.js.map'))
         .pipe(source(entryFile))
-        .pipe(rename('app.js'))
+        .pipe(rename('client.js'))
         .pipe(gulp.dest(buildjs))
         .pipe(streamify(uglify()))
-        .pipe(rename('app.min.js'))
+        .pipe(rename('client.min.js'))
         .pipe(buffer())
         .pipe(rev())
         .pipe(gulp.dest(buildjs))
         .pipe(rev.manifest())
-        .pipe(rename('app-manifest.json'))
+        .pipe(rename('client-manifest.json'))
         .pipe(gulp.dest(buildjs));
     }
 

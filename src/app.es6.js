@@ -9,6 +9,8 @@ import * as Router from 'express-router-pulled-out';
 // plugins.
 import { v1 as V1Api } from 'snoode';
 
+function noop () { };
+
 class App {
   constructor (config) {
     this.config = config;
@@ -42,7 +44,7 @@ class App {
   // the response (a `defer` object). The last param, `function`, can be safely
   // ignored - it's fired after handling.
   route (req, res) {
-    return this.router.handle(req, res, function() { });
+    return this.router.handle(req, res, noop);
   }
 
   // Allow plugins to register mutators that change how React elements render.

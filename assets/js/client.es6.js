@@ -13,33 +13,39 @@ import config from '../../src/config';
 import plugins from '../../src/plugins';
 
 // Server uses express sessions; on the client, we'll persist state in memory.
-App.prototype.getState = function(s) {
-  if (s) {
-    return this.state[s];
+App.prototype.getState = function(prop) {
+  if (prop) {
+    return this.state[prop];
   }
 
   return this.state;
 }
 
-App.prototype.setState = function(s, v) {
-  this.state[s] = v;
+App.prototype.setState = function(prop, val) {
+  this.state[prop] = val;
   return v;
 }
 
-App.prototype.resetState = function(o) {
-  this.state = o || {};
+App.prototype.resetState = function(state) {
+  this.state = state || {};
 }
 
 function buildRequest (url, app) {
-  var req = {};
-  req.url = url;
-  req.method = 'GET';
-  req.renderSynchronous = false;
+  var splitUrl = url.split('?');
+  var query = {};
 
-  req.query = querystring.parse(url.split('?')[1] || '');
+  if(splitUrl.length > 1) {
+    query = querystring.parse(splitUrl[1] || '');
+  }
 
-  req.headers = {};
-  req.session = {};
+  var req = {
+    url: url,
+    method: 'GET',
+    renderSynchronous: false,
+    query: query,
+    headers: {},
+    session: {},
+  }
 
   return req;
 }

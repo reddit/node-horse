@@ -8,7 +8,7 @@ import * as React from 'react';
   * @return {React class}
   */
 function mutate(ElementClass /* ...mutators */) {
-  var mutators = Array.prototype.slice.call(arguments, 1);
+  var mutators = Array.from(arguments).slice(1);
   return React.createClass({
     render: function() {
       var renderedElement = (
@@ -58,4 +58,3 @@ function query(element, type) {
 }
 
 export { mutate, query, elementIsType };
-
