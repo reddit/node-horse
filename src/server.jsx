@@ -17,15 +17,15 @@ import * as csurf from 'csurf';
 // For rendering
 import * as React from 'react';
 
-// App config
-import config from './config';
-
 // Plugins
 import plugins from './plugins';
 
 // The core
 import App from './app';
+import oauth from './oauth';
 
+// App config
+import config from './config';
 // Import built-asset manifests for passing to layouts
 import * as jsManifest from '../build/js/client-manifest.json';
 import * as cssManifest from '../build/css/css-manifest.json';
@@ -34,12 +34,6 @@ import * as cssManifest from '../build/css/css-manifest.json';
 config.manifest = {};
 Object.assign(config.manifest, jsManifest, cssManifest);
 
-// Instantiate a new express router
-var router = express.Router();
-
-// Intantiate a new App instance (React middleware)
-var app = new App(config);
-
 // Private, server-only config that we don't put in config.js, which is shared
 config.liveReload = process.env.LIVERELOAD || true;
 config.cookieSecret = process.env.SWITCHAROO_COOKIE_SECRET || 'snoo';
@@ -47,6 +41,9 @@ config.oauth = {
   clientId: process.env.OAUTH_CLIENT_ID || '',
   secret: process.env.OAUTH_SECRET || '',
 };
+
+// Intantiate a new App instance (React middleware)
+var app = new App(config);
 
 // Register the plugins - some plugins mutate other react components, so they
 // need an instance of our App passed in
@@ -61,6 +58,9 @@ if (plugins) {
 
 // Instantiate the express web server instance
 var server = express();
+
+// Instantiate a new express router
+var router = express.Router();
 
 // Set the port that the webserver should run on
 server.set('port', app.config.port);
@@ -78,7 +78,7 @@ server.use(session({
   secret: config.cookieSecret,
   resave: true,
   saveUninitialized: true,
-  httpOnly: false,
+  httpOnly: true,
   cookie: {
     maxAge: 60000
   },
@@ -93,6 +93,9 @@ server.use(favicon(__dirname + '/../public/favicon.ico'));
 router.use(express.static(__dirname + '/../build'));
 router.use(express.static(__dirname + '/../public'));
 router.use(express.static(__dirname + '/../lib/snooboots/dist'));
+
+// Set up oauth routes
+oauth(app, router);
 
 // Set up the ability to inject bootstrapping data, so the client doesn't have
 // to re-hit the server for initialization data

@@ -127,6 +127,6 @@ $(function() {
       changeUrl(location.pathname);
     });
 
-    changeUrl(document.location.pathname);
+    changeUrl(document.location.pathname, true);
   }
 });
