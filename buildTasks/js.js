@@ -61,7 +61,7 @@ module.exports = function buildJS(gulp, buildjs) {
 
       stream.on('error', function (err) { console.error(err.toString()) });
 
-      gulp.src(buildjs + '/app*.js')
+      gulp.src(buildjs + '/client*.js')
         .pipe(clean({force: true}));
 
       stream
