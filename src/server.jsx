@@ -125,7 +125,7 @@ router.use(function(req, res, next) {
     if (body) {
       // If it's an object, it's probably React.
       if (React.isValidElement(body)) {
-        if (React.isValidelement(Layout)) {
+        if (Layout) {
           body = <Layout {...props}>{body}</Layout>;
         }
 
@@ -147,7 +147,7 @@ router.use(function(req, res, next) {
     var Layout = response.layout;
 
     if (React.isValidElement(body)) {
-      if (React.isValidelement(Layout)) {
+      if (Layout) {
         body = <Layout {...props}>{body}</Layout>;
       }
 
