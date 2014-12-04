@@ -103,50 +103,67 @@ function injectBootstrap(body, props) {
 }
 
 // The success render function
-function render (response) {
+function render (response, req, res, app) {
   var status = response.status || 200;
   var body = response.body || '';
   var props = response.props;
   var Layout = response.layout;
 
   if (body) {
-    // If it's an object, it's probably React.
-    if (React.isValidElement(body)) {
-      if (Layout) {
-        body = <Layout {...props}>{body}</Layout>;
-      }
+    try {
+      // If it's an object, it's probably React.
+      if (React.isValidElement(body)) {
+        if (Layout) {
+          body = <Layout {...props}>{body}</Layout>;
+        }
 
-      body = React.renderToStaticMarkup(body);
-      body = injectBootstrap(body, props);
+        body = React.renderToStaticMarkup(body);
+        body = injectBootstrap(body, props);
+      }
+    } catch (e) {
+      return error({
+        status: 500,
+        message: e.toString(),
+        error: e,
+      }, req, res, app);
     }
   } else {
     status = 204;
   }
 
-  this.status(status).send(body);
+  res.status(status).send(body);
 }
 
-function error (response) {
-  if (config.debug) {
-    console.log(response);
-  }
+function error (response, req, res, app) {
+  var status = response.status || 400;
+  var message = response.message || 'Unkown error';
 
-  var status = response.status || 404;
-  var body = response.body || '';
-  var Layout = response.layout;
+  var error = response.error;
 
-  if (React.isValidElement(body)) {
-    if (Layout) {
-      body = <Layout {...props}>{body}</Layout>;
+  if (config.debug && response.error) {
+    if (response.error.fileName) {
+      message += '\n' + response.error.fileName;
     }
 
-    body = React.renderToString(body);
-    body = injectBootstrap(body, props);
-    this.status(status).send(body);
-  } else {
-    this.status(response.status || 404).send(response.message || 'Unkown error');
-  }
+    if (response.error.stack) {
+      message += '\n' + response.error.stack;
+    }
 
+    console.log(message);
+
+    res.status(status).send(message);
+  } else {
+    var reroute = '/' + status;
+
+    if (req.url !== reroute) {
+      req.status = status;
+      req.url = '/' + status;
+
+      app.route(req, response);
+    } else {
+      res.status(500).send('Yo dawg, I heard you liked errors, so I errored while rendering your error page');
+    }
+  }
 }
 
 // Set up the router to listen to ALL requests not caught by the static
@@ -158,12 +175,22 @@ router.use(function(req, res, next) {
   // Make a copy of response that can be sent into the polymorphic `app`.
   // Overwrite send with our server's send.
   var response = {
-    render: render.bind(res),
-    error: error.bind(res),
+    render: function(response) { render(response, req, res, app); },
+    error: function(response) { error(response, req, res, app); },
     redirect: res.redirect,
   }
 
-  app.route(req, response);
+  try {
+    app.route(req, response);
+  } catch (e) {
+    // Handle if custom type (like routeerror)
+    error({
+      message: e.message,
+      stack: e.stack || '',
+      error: e.error || e,
+      status: e.status || 500,
+    }, req, res, app);
+  }
 });
 
 // Finally, listen to the router on `/` (all requests).

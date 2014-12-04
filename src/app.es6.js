@@ -11,7 +11,7 @@ import { v1 as V1Api } from 'snoode';
 
 import RouteError from './routeError';
 
-function noop (err) {
+function done (err) {
   if (typeof err !== 'undefined') {
     if (err === null) {
       throw new RouteError(this.url);
@@ -54,7 +54,7 @@ class App {
   // the response (a `defer` object). The last param, `function`, can be safely
   // ignored - it's fired after handling.
   route (req, res, next) {
-    return this.router.handle(req, res, next || noop.bind(req));
+    return this.router.handle(req, res, next || done.bind(req));
   }
 
   // Allow plugins to register mutators that change how React elements render.
