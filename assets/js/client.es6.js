@@ -43,28 +43,13 @@ function buildRequest (url, app) {
     method: 'GET',
     renderSynchronous: false,
     query: query,
-    headers: {},
-    session: {},
+    headers: {
+      Referer: document.location.pathname,
+    },
+    session: app.getState('session') || {},
   }
 
   return req;
-}
-
-function changeUrl(href, mountPoint, app, initial) {
-  var req = buildRequest(href, app);
-  var defer = q.defer();
-
-  if (initial) {
-    req.props = app.getState();
-  }
-
-  defer.promise.then(function(res) {
-    React.render(res.body, mountPoint);
-  }).fail(function(res) {
-    console.log('failure', arguments);
-  });
-
-  app.route(req, defer);
 }
 
 $(function() {
@@ -84,6 +69,34 @@ $(function() {
 
   var history = window.history || window.location.history;
   var mountPoint = document.getElementById('app-container');
+
+  function render(response) {
+    React.render(response.body, mountPoint);
+  }
+
+  function error() {
+    console.log('failure', arguments);
+  }
+
+  function redirect(path) {
+    changeUrl(path);
+  }
+
+  var res = {
+    render: render,
+    error: error,
+    redirect: redirect,
+  };
+
+  function changeUrl(href, initial) {
+    var req = buildRequest(href, app);
+
+    if (initial) {
+      req.props = app.getState();
+    }
+
+    app.route(req, res);
+  }
 
   if (history) {
     $('body').on('click', 'a', function(e) {
@@ -107,13 +120,13 @@ $(function() {
 
       history.pushState(null, null, href);
 
-      changeUrl(href, mountPoint, app);
+      changeUrl(href);
     });
 
     $(window).on('popstate', function(e) {
-      changeUrl(location.pathname, mountPoint, app);
+      changeUrl(location.pathname);
     });
 
-    changeUrl(document.location.pathname, mountPoint, app, true);
+    changeUrl(document.location.pathname);
   }
 });

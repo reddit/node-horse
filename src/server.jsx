@@ -102,63 +102,66 @@ function injectBootstrap(body, props) {
   return body.slice(0, bodyIndex) + template + body.slice(bodyIndex);
 }
 
-// Set up the router to listen to ALL requests not caught by the static
-// directive aboves, and send them into the `App` React middleware instance.
-router.use(function(req, res, next) {
-  var defer = q.defer();
+// The success render function
+function render (response) {
+  var status = response.status || 200;
+  var body = response.body || '';
+  var props = response.props;
+  var Layout = response.layout;
 
-  // Gather all data before rendering.
-  req.renderSynchronous = true;
-
-  // Express routes generally have a `req`, `res` format. In this case, we're
-  // going to pass in a `defer` object that the route handler can `resolve` or
-  // `reject`, allowing for async calls on the inside. On the client side, the
-  // react elements will mount; here on the server side, the elements will be
-  // rendered and sent down as html to the browser.
-
-  defer.promise.then(function(response) {
-    var status = response.status || 200;
-    var body = response.body || '';
-    var props = response.props;
-    var Layout = response.layout;
-
-    if (body) {
-      // If it's an object, it's probably React.
-      if (React.isValidElement(body)) {
-        if (Layout) {
-          body = <Layout {...props}>{body}</Layout>;
-        }
-
-        body = React.renderToStaticMarkup(body);
-        body = injectBootstrap(body, props);
-      }
-    } else {
-      status = 204;
-    }
-
-    res.status(status).send(body);
-  }).fail(function(response) {
-    if (config.debug) {
-      console.log(arguments);
-    }
-
-    var status = response.status || 404;
-    var body = response.body || '';
-    var Layout = response.layout;
-
+  if (body) {
+    // If it's an object, it's probably React.
     if (React.isValidElement(body)) {
       if (Layout) {
         body = <Layout {...props}>{body}</Layout>;
       }
 
-      body = React.renderToString(body);
+      body = React.renderToStaticMarkup(body);
       body = injectBootstrap(body, props);
     }
+  } else {
+    status = 204;
+  }
 
-    res.status(status).send(body);
-  });
+  this.status(status).send(body);
+}
 
-  app.route(req, defer);
+function error (response) {
+  if (config.debug) {
+    console.log(arguments);
+  }
+
+  var status = response.status || 404;
+  var body = response.body || '';
+  var Layout = response.layout;
+
+  if (React.isValidElement(body)) {
+    if (Layout) {
+      body = <Layout {...props}>{body}</Layout>;
+    }
+
+    body = React.renderToString(body);
+    body = injectBootstrap(body, props);
+  }
+
+  this.status(status).send(body);
+}
+
+// Set up the router to listen to ALL requests not caught by the static
+// directive aboves, and send them into the `App` React middleware instance.
+router.use(function(req, res, next) {
+  // Gather all data before rendering.
+  req.renderSynchronous = true;
+
+  // Make a copy of response that can be sent into the polymorphic `app`.
+  // Overwrite send with our server's send.
+  var response = {
+    render: render.bind(res),
+    error: error.bind(res),
+    redirect: res.redirect,
+  }
+
+  app.route(req, response);
 });
 
 // Finally, listen to the router on `/` (all requests).

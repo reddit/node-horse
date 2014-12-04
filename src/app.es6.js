@@ -43,8 +43,8 @@ class App {
   // Accepts routes / history changes, and forwards on the req object and
   // the response (a `defer` object). The last param, `function`, can be safely
   // ignored - it's fired after handling.
-  route (req, res) {
-    return this.router.handle(req, res, noop);
+  route (req, res, next) {
+    return this.router.handle(req, res, next || noop);
   }
 
   // Allow plugins to register mutators that change how React elements render.
