@@ -128,7 +128,7 @@ function render (response) {
 
 function error (response) {
   if (config.debug) {
-    console.log(arguments);
+    console.log(response);
   }
 
   var status = response.status || 404;
@@ -142,9 +142,11 @@ function error (response) {
 
     body = React.renderToString(body);
     body = injectBootstrap(body, props);
+    this.status(status).send(body);
+  } else {
+    this.status(response.status || 404).send(response.message || 'Unkown error');
   }
 
-  this.status(status).send(body);
 }
 
 // Set up the router to listen to ALL requests not caught by the static
