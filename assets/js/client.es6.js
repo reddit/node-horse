@@ -12,6 +12,10 @@ import App from '../../src/app';
 import config from '../../src/config';
 import plugins from '../../src/plugins';
 
+function fullPathName () {
+  return document.location.pathname + document.location.search;
+}
+
 // Server uses express sessions; on the client, we'll persist state in memory.
 App.prototype.getState = function(prop) {
   if (prop) {
@@ -33,8 +37,10 @@ App.prototype.resetState = function(state) {
 function buildRequest (url, app) {
   var splitUrl = url.split('?');
   var query = {};
+  var url = url || '/';
 
   if(splitUrl.length > 1) {
+    url = splitUrl[0] || '/';
     query = querystring.parse(splitUrl[1] || '');
   }
 
@@ -44,7 +50,7 @@ function buildRequest (url, app) {
     renderSynchronous: false,
     query: query,
     headers: {
-      Referer: document.location.pathname,
+      Referer: fullPathName(),
     },
     session: app.getState('session') || {},
   }
@@ -99,7 +105,7 @@ $(function() {
   }
 
   if (history) {
-    var initialUrl = location.pathname;
+    var initialUrl = fullPathName();
 
     $('body').on('click', 'a', function(e) {
       var $link = $(this);
@@ -116,7 +122,7 @@ $(function() {
 
       e.preventDefault();
 
-      if (href === document.location.pathname) {
+      if (href === fullPathName()) {
         return;
       }
 
@@ -129,11 +135,11 @@ $(function() {
 
     $(window).on('popstate', function(e) {
       // Work around some browsers firing popstate on initial load
-      if (location.pathname !== initialUrl) {
-        changeUrl(location.pathname);
+      if (fullPathName() !== initialUrl) {
+        changeUrl(fullPathName());
       }
     });
 
-    changeUrl(document.location.pathname, true);
+    changeUrl(fullPathName(), true);
   }
 });
