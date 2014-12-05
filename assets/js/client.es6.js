@@ -7,6 +7,7 @@ import * as $ from 'jquery';
 global.jQuery = global.$ = $;
 
 import 'bootstrap';
+import * as attachFastClick from 'fastclick';
 
 import App from '../../src/app';
 import config from '../../src/config';
@@ -106,6 +107,8 @@ $(function() {
 
   if (history) {
     var initialUrl = fullPathName();
+    console.log(attachFastClick);
+    attachFastClick(document.body);
 
     $('body').on('click', 'a', function(e) {
       var $link = $(this);
