@@ -99,6 +99,8 @@ $(function() {
   }
 
   if (history) {
+    var initialUrl = location.pathname;
+
     $('body').on('click', 'a', function(e) {
       var $link = $(this);
       var href = $link.attr('href');
@@ -118,13 +120,18 @@ $(function() {
         return;
       }
 
+      initialUrl = href;
+
       history.pushState(null, null, href);
 
       changeUrl(href);
     });
 
     $(window).on('popstate', function(e) {
-      changeUrl(location.pathname);
+      // Work around some browsers firing popstate on initial load
+      if (location.pathname !== initialUrl) {
+        changeUrl(location.pathname);
+      }
     });
 
     changeUrl(document.location.pathname, true);
