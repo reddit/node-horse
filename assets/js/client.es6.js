@@ -107,7 +107,6 @@ $(function() {
 
   if (history) {
     var initialUrl = fullPathName();
-    console.log(attachFastClick);
     attachFastClick(document.body);
 
     $('body').on('click', 'a', function(e) {
