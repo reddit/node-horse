@@ -31,7 +31,8 @@
     "simple-oauth2": "^0.2.1",
     "snoode": "^0.1.6",
     "switcharoo-plugin-core": "0.2.2",
-    "switcharoo-plugin-metrics": "0.0.3"
+    "switcharoo-plugin-metrics": "0.0.3",
+    "switcharoo-plugin-ads": "git+https://github.com/ajacksified/switcharoo-plugin-ads.git#v0.1.0"
   },
   "devDependencies": {
     "6to5-browserify": "git+https://github.com/ajacksified/6to5-browserify.git#v1.2.0-a",
