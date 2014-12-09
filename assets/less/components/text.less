@@ -59,9 +59,11 @@ a.voted.text-downvote:focus,
   &:extend(.text-muted);
 }
 
-.logo-reddit.navbar-brand {
+.logo-reddit {
   background: url('/img/logo.png') center right no-repeat;
   width: 107px;
+  height: 70px;
+  display: inline-block;
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
@@ -69,7 +71,7 @@ a.voted.text-downvote:focus,
   only screen and (-o-min-device-pixel-ratio: 2/1),
   only screen and (min-device-pixel-ratio: 2) {
 
-  .logo-reddit.navbar-brand {
+  .logo-reddit {
     background: url('/img/logo-2x.png') center right no-repeat;
     background-size: 97px;
   }

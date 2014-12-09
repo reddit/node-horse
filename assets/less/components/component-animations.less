@@ -3,9 +3,32 @@
 }
 
 .loading {
-  color: @gray-lighter;
+  color: @gray;
   -webkit-animation: rotating 2s linear infinite;
   animation: rotating 2s linear infinite;
+}
+
+.loading-indicator {
+  text-align: center;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  top: 1em;
+}
+
+.loading-indicator-enter {
+  opacity: 0.01;
+  transition: opacity .25s ease-in;
+}
+
+.loading-indicator-enter.loading-indicator-enter-active {
+  opacity: 1;
+}
+
+.loading-indicator-leave {
+  opacity: 0;
 }
 
 @-webkit-keyframes rotating {
