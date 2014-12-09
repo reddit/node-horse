@@ -13,6 +13,9 @@ import App from '../../src/app';
 import config from '../../src/config';
 import plugins from '../../src/plugins';
 
+// Null this out, or errors everywhere
+config.userAgent = undefined;
+
 function fullPathName () {
   return document.location.pathname + document.location.search;
 }
@@ -49,6 +52,7 @@ function buildRequest (url, app) {
     url: url,
     method: 'GET',
     renderSynchronous: false,
+    useCache: true,
     query: query,
     headers: {
       Referer: fullPathName(),
@@ -96,6 +100,8 @@ $(function() {
   };
 
   function changeUrl(href, initial) {
+    initialUrl = fullPathName();
+
     var req = buildRequest(href, app);
 
     if (initial) {

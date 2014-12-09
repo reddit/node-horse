@@ -174,6 +174,7 @@ function error (response, req, res, app) {
 router.use(function(req, res, next) {
   // Gather all data before rendering.
   req.renderSynchronous = true;
+  req.useCache = false;
 
   // Make a copy of response that can be sent into the polymorphic `app`.
   // Overwrite send with our server's send.
