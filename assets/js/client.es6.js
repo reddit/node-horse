@@ -129,6 +129,11 @@ function initialize(bindLinks) {
         var $link = $(this);
         var href = $link.attr('href');
 
+        if (href.indexOf('#') === 0) {
+          e.preventDefault();
+          return;
+        }
+
         // If it has a target=_blank, or an 'external' data attribute, or it's
         // an absolute url, let the browser route rather than forcing a capture.
         if (
