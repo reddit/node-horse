@@ -20,7 +20,8 @@
 }
 
 .comment-offset, .row.comment-offset {
-  border-left: solid 5px #ccc;
+  border-left: dotted 1px #ccc;
+  margin-left: 1em;
 }
 
 .comment-title {
@@ -45,12 +46,12 @@
   display: inline-block;
 }
 
-.generate-nested-comment-border-widths(@n, @i: 1) when (@i =< @n) {
-  .comment-offset-@{i} {
-    border-width: @i * 4px;
+.comment-collapsed {
+  &.comment-header {
+    opacity: .5;
   }
 
-  .generate-nested-comment-border-widths(@n, (@i + 1));
+  &.comment-content {
+    display: none;
+  }
 }
-
-.generate-nested-comment-border-widths(12);
