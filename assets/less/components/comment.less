@@ -9,24 +9,15 @@
   hyphens: auto;
 }
 
-.comment > article,
-.comment > a {
+.comment {
   padding: (@row-spacing-base / 2) 0;
   padding-left: 1em;
 }
 
-.comment > a {
-  display: inline-block;
-}
-
-.comment-offset, .row.comment-offset {
+/* Nested comments get borders */
+.comment .comment {
   border-left: dotted 1px #ccc;
   margin-left: 1em;
-}
-
-.comment-title {
-  font-size: @font-size-h6;
-  margin: 0;
 }
 
 .comment-content p:last-child {
@@ -40,10 +31,6 @@
 
 .comment-vote {
   font-size: @font-size-base;
-}
-
-.dropdown-inline {
-  display: inline-block;
 }
 
 .comment-collapsed {
