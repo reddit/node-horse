@@ -1,6 +1,6 @@
 {
   "name": "switcharoo",
-  "version": "0.2.32",
+  "version": "0.2.33",
   "description": "",
   "main": "src/app.es6.js",
   "scripts": {
@@ -24,10 +24,12 @@
     "node-jsx": "^0.12.4",
     "q": "^1.1.2",
     "react": "^0.12.1",
+    "react-mutator": "^0.2.0",
     "serve-favicon": "^2.1.7",
     "simple-oauth2": "^0.2.1",
     "snoode": "^0.1.6",
-    "switcharoo-plugin-core": "0.1.28"
+    "switcharoo-plugin-core": "0.1.28",
+    "switcharoo-plugin-metrics": "0.0.1"
   },
   "devDependencies": {
     "6to5-browserify": "git+https://github.com/ajacksified/6to5-browserify.git#v1.2.0-a",

@@ -1,6 +1,10 @@
+require("6to5/polyfill");
+
 // Import `mutate`, which has the logic for allowing plugins to mutate other
 // plugins' React elements.
-import { mutate } from './mutate';
+import { mutate } from 'react-mutator';
+
+import { EventEmitter } from 'events';
 
 // Import a generic, polymor
 import * as Router from 'express-router-pulled-out';
@@ -33,6 +37,8 @@ class App {
     // callbacks registered by plugins.
     this.router = new Router();
 
+    this.emitter = new EventEmitter();
+
     // Set up two APIs (until we get non-authed oauth working).
     this.nonAuthAPI = new V1Api({
       userAgent: config.userAgent,
@@ -54,7 +60,9 @@ class App {
   // the response (a `defer` object). The last param, `function`, can be safely
   // ignored - it's fired after handling.
   route (req, res, next) {
-    return this.router.handle(req, res, next || done.bind(req));
+    this.emit('route:start', req);
+    this.router.handle(req, res, next || done.bind(req));
+    this.emit('route:end', req);
   }
 
   // Allow plugins to register mutators that change how React elements render.
@@ -83,6 +91,14 @@ class App {
     }
 
     return this.nonAuthAPI;
+  }
+
+  emit (...args) {
+    this.emitter.emit.apply(this, args);
+  }
+
+  on (...args) {
+    this.emitter.on.apply(this, args);
   }
 }
 

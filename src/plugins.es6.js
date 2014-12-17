@@ -3,8 +3,10 @@
 // client-side compilation.
 
 import core from 'switcharoo-plugin-core';
+import metrics from 'switcharoo-plugin-metrics';
 
 var plugins = {
+  metrics: metrics,
   core: core,
 }
 
