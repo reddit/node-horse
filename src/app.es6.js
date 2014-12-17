@@ -1,5 +1,3 @@
-require("6to5/polyfill");
-
 // Import `mutate`, which has the logic for allowing plugins to mutate other
 // plugins' React elements.
 import { mutate } from 'react-mutator';
