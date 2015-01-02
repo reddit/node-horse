@@ -5,6 +5,8 @@
   "main": "src/app.es6.js",
   "scripts": {
     "start": "node --harmony index.js",
+    "build": "./node_modules/gulp/bin/gulp.js",
+    "watch": "./node_modules/gulp/bin/gulp.js watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "reddit <jack@reddit.com>",
