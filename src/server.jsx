@@ -174,15 +174,17 @@ function error (response, req, res, app) {
 router.use(function(req, res, next) {
   // Gather all data before rendering.
   req.renderSynchronous = true;
-  req.useCache = true;
+
+  // Only cache unauthed requests
+  req.useCache = !(req.session && req.session.token);
 
   // Make a copy of response that can be sent into the polymorphic `app`.
   // Overwrite send with our server's send.
-  var response = {
-    render: function(response) { render(response, req, res, app); },
-    error: function(response) { error(response, req, res, app); },
-    redirect: res.redirect,
-  }
+  var response = res;
+  res.render = function(response) { render(response, req, res, app); };
+  res.error = function(response) { error(response, req, res, app); };
+
+  req.csrf = req.csrfToken();
 
   try {
     app.route(req, response);

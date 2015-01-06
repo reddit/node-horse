@@ -65,7 +65,7 @@ function initialize(bindLinks) {
       useCache: true,
       query: query,
       headers: {
-        Referer: fullPathName(),
+        referer: fullPathName(),
       },
       session: app.getState('session') || {},
     }
