@@ -153,7 +153,7 @@ function initialize(bindLinks) {
 
         history.pushState(null, null, href);
 
-        changeUrl(href);
+        changeUrl(fullPathName());
       });
 
       $(window).on('popstate', function(e) {
