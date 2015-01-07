@@ -1,4 +1,16 @@
 .navbar-secondary {
   position: relative;
   top: (@navbar-margin-bottom * -1);
+
+  &.affix {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    top: 0px;
+
+    & + .container {
+      margin-top: 72px;
+    }
+  }
 }
