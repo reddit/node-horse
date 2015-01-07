@@ -1,6 +1,6 @@
 {
   "name": "switcharoo",
-  "version": "0.2.40",
+  "version": "0.2.41",
   "description": "",
   "main": "src/app.es6.js",
   "scripts": {
@@ -30,7 +30,7 @@
     "serve-favicon": "^2.2.0",
     "simple-oauth2": "^0.2.1",
     "snoode": "^0.1.7",
-    "switcharoo-plugin-core": "0.3.2",
+    "switcharoo-plugin-core": "0.3.3",
     "switcharoo-plugin-metrics": "0.2.0",
     "switcharoo-plugin-ads": "0.2.0"
   },
