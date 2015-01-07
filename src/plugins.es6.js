@@ -4,8 +4,10 @@
 
 import core from 'switcharoo-plugin-core';
 import metrics from 'switcharoo-plugin-metrics';
+import ads from 'switcharoo-plugin-ads';
 
 var plugins = {
+  ads: ads,
   metrics: metrics,
   core: core,
 }
