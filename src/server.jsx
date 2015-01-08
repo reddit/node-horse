@@ -138,7 +138,7 @@ function render (response, req, res, app) {
 }
 
 function error (response, req, res, app) {
-  var status = response.status || 400;
+  var status = response.status || 500;
   var message = response.message || 'Unkown error';
 
   var error = response.error;
@@ -162,7 +162,7 @@ function error (response, req, res, app) {
       req.status = status;
       req.url = '/' + status;
 
-      app.route(req, response);
+      return app.route(req, res);
     } else {
       res.status(500).send('Yo dawg, I heard you liked errors, so I errored while rendering your error page');
     }
@@ -182,7 +182,7 @@ router.use(function(req, res, next) {
   // Overwrite send with our server's send.
   var response = res;
   res.render = function(response) { render(response, req, res, app); };
-  res.error = function(response) { error(response, req, res, app); };
+  res.error = function(response, req, res, app) { error(response, req, res, app); };
 
   req.csrf = req.csrfToken();
 

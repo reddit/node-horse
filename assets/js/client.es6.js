@@ -95,8 +95,22 @@ function initialize(bindLinks) {
       React.render(response.body, mountPoint);
     }
 
-    function error() {
-      console.log('failure', arguments);
+    function error (response, req, res, app) {
+      var status = response.status || 500;
+      var message = response.message || 'Unkown error';
+
+      var error = response.error;
+
+      var reroute = '/' + status;
+
+      if (req.url !== reroute) {
+        req.status = status;
+        req.url = '/' + status;
+
+        return app.route(req, res);
+      } else {
+        res.status(500).send('Yo dawg, I heard you liked errors, so I errored while rendering your error page');
+      }
     }
 
     function redirect(path) {
@@ -109,10 +123,11 @@ function initialize(bindLinks) {
       redirect: redirect,
     };
 
-    function changeUrl(href, initial) {
+    function changeUrl(href, initial, referrer) {
       initialUrl = fullPathName();
 
       var req = buildRequest(href, app);
+      req.headers.referer = referrer || req.headers.referer;
 
       if (initial) {
         req.props = app.getState();
@@ -128,6 +143,7 @@ function initialize(bindLinks) {
       $('body').on('click', 'a', function(e) {
         var $link = $(this);
         var href = $link.attr('href');
+        var currentUrl = fullPathName();
 
         if (href.indexOf('#') === 0) {
           e.preventDefault();
@@ -145,7 +161,7 @@ function initialize(bindLinks) {
 
         e.preventDefault();
 
-        if (href === fullPathName()) {
+        if (href === currentUrl) {
           return;
         }
 
@@ -153,13 +169,15 @@ function initialize(bindLinks) {
 
         history.pushState(null, null, href);
 
-        changeUrl(fullPathName());
+        // Set to the browser's interpretation of the current name (to make
+        // relative paths easier), and send in the old url.
+        changeUrl(fullPathName(), false, currentUrl);
       });
 
       $(window).on('popstate', function(e) {
         // Work around some browsers firing popstate on initial load
         if (fullPathName() !== initialUrl) {
-          changeUrl(fullPathName());
+          changeUrl(fullPathName(), false);
         }
       });
     }

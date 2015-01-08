@@ -59,7 +59,13 @@ class App {
   // ignored - it's fired after handling.
   route (req, res, next) {
     this.emit('route:start', req);
-    this.router.handle(req, res, next || done.bind(req));
+
+    try {
+      this.router.handle(req, res, next || done.bind(req));
+    } catch(e) {
+      res.error(e, req, res, this);
+    }
+
     this.emit('route:end', req);
   }
 
