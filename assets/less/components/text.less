@@ -64,6 +64,12 @@ a.voted.text-downvote:focus,
   width: 32px;
   height: 32px;
   display: inline-block;
+
+  &.logo-small {
+    width: 16px;
+    height: 16px;
+    background-size: 16px;
+  }
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2),
@@ -74,6 +80,11 @@ a.voted.text-downvote:focus,
   .logo-reddit {
     background: url('/img/snoo-64.png') center right no-repeat;
     background-size: 32px;
+
+    &.logo-small {
+      background: url('/img/snoo-32.png') center right no-repeat;
+      background-size: 16px;
+    }
   }
 }
 
