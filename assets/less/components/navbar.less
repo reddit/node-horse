@@ -1,16 +1,41 @@
 .navbar-secondary {
-  position: relative;
-  top: (@navbar-margin-bottom * -1);
+  position: fixed;
+  top: 7px;
+  right: 5px;
+  left: 32px;
+  background: #ebf3fc;
+  z-index: 1031;
 
-  &.affix {
-    position: fixed;
-    top: 0;
-    z-index: 1;
-    width: 100%;
-    top: 0px;
+}
 
-    & + .container {
-      margin-top: 72px;
+.navbar-offcanvas {
+  position: absolute;
+  width: 80%;
+  left: -80%;
+
+  > li > a {
+    &:hover, &:focus {
+      background-color: @navbar-default-border;
     }
   }
+
+  &.nav .open > a, &.nav .open > a:hover, &.nav .open > a:focus {
+    background-color: @navbar-default-border;
+  }
+}
+
+.navbar-offcanvas-target {
+  position: relative;
+  left: 0%;
+
+  box-shadow: 0 0 10px @navbar-default-border;
+  transition: transform .25s ease-in-out;
+
+  main {
+    padding-top: 70px;
+  }
+}
+
+.navbar-offcanvas-target.active {
+   transform: translate(80%,0);
 }

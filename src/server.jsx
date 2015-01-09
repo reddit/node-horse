@@ -164,6 +164,7 @@ function error (response, req, res, app) {
 
       return app.route(req, res);
     } else {
+      console.log(response);
       res.status(500).send('Yo dawg, I heard you liked errors, so I errored while rendering your error page');
     }
   }
