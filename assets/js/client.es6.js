@@ -13,6 +13,9 @@ import App from '../../src/app';
 import config from '../../src/config';
 import plugins from '../../src/plugins';
 
+var $html = $('html');
+var $body = $('body');
+
 // A few es5 sanity checks
 if (!Object.create || !Array.prototype.map || !Object.freeze) {
   $.getScript('/js/es5-shims.js', function(){
@@ -140,7 +143,7 @@ function initialize(bindLinks) {
     attachFastClick(document.body);
 
     if(history && bindLinks) {
-      $('body').on('click', 'a', function(e) {
+      $body.on('click', 'a', function(e) {
         var $link = $(this);
         var href = $link.attr('href');
         var currentUrl = fullPathName();
@@ -168,6 +171,9 @@ function initialize(bindLinks) {
         initialUrl = href;
 
         history.pushState(null, null, href);
+
+        // Restore scroll position to 0 on click
+        $html.add($body).scrollTop(0);
 
         // Set to the browser's interpretation of the current name (to make
         // relative paths easier), and send in the old url.
