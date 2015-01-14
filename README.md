@@ -2,7 +2,7 @@ switcharoo
 ==========
 
 switcharoo is a web server and build system for building polymorphic
-React applications in node. It is part of a larger series of plugins that,
+React applications in node or io.js. It is part of a larger series of plugins that,
 together, form frontend applications for reddit.
 
 A Brief Overview
@@ -17,7 +17,7 @@ across plugins.
 ```
  +---------+          +---------------+
  | express |          | html5 history |
- +---------+          |     api       | 
+ +---------+          |     api       |
     |                 +---------------+
  req, cb                   req, cb
     |                        |
@@ -61,6 +61,7 @@ Plugins register themselves via two interfaces:
 Getting Up and Running
 ----------------------
 
+0. Install node.js or io.js.
 1. [Fork](https://github.com/reddit/switcharoo/fork) and clone
   this project.
 2. Also fork and clone any plugins you plan on developing. In these, run
