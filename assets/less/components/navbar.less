@@ -1,26 +1,56 @@
+.navbar-default {
+  border: none;
+}
+
+.navbar-xs {
+  min-height: inherit;
+
+  .navbar-nav {
+    float: left;
+    margin: 0;
+
+    > li {
+      float: left;
+    }
+  }
+
+  .navbar-right {
+    float: right !important;
+  }
+}
+
 .navbar-secondary {
   position: fixed;
   top: 7px;
   right: 5px;
-  left: 32px;
+  left: 70px;
   background: #ebf3fc;
   z-index: 1031;
+  list-style: none;
 
-  .logo-reddit {
-    position: absolute;
-    top: 0;
-    width: 32px;
+  padding: 0;
+  margin: 0;
+
+  > li + li:before {
+    content: '';
+    padding: 0;
   }
 
-  li:nth-child(2) {
-    margin-left: 32px;
+  .brand-title {
+    a {
+      padding-left: 0;
+
+      &:hover, &:active {
+        background: transparent;
+      }
+    }
   }
 }
 
 .navbar-offcanvas {
   position: fixed;
   width: 80%;
-  top: 70px;
+  top: 51px;
   left: -80%;
 
   &.active {
@@ -45,7 +75,7 @@
   box-shadow: 0 0 10px @navbar-default-border;
 
   main {
-    padding-top: 70px;
+    padding-top: 51px;
   }
 }
 
