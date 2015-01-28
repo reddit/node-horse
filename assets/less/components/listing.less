@@ -64,6 +64,22 @@
   }
 }
 
+.external-image {
+  position: relative;
+
+  &:before {
+    font-family: 'Glyphicons Halflings';
+    content: "\e066";
+
+    font-size: @font-size-h1;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: rgba(255,255,255,.75);
+    z-index: 1;
+  }
+}
+
 .well.listing-selftext {
    background-color: @gray-lighter;
    border: none;
