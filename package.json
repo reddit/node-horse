@@ -30,9 +30,9 @@
     "serve-favicon": "^2.2.0",
     "simple-oauth2": "^0.2.1",
     "snoode": "^0.1.10",
-    "switcharoo-plugin-core": "0.5.2",
+    "switcharoo-plugin-core": "0.5.3",
     "switcharoo-plugin-metrics": "0.2.0",
-    "switcharoo-plugin-ads": "0.2.3"
+    "switcharoo-plugin-ads": "0.2.4"
   },
   "devDependencies": {
     "6to5-browserify": "git+https://github.com/ajacksified/6to5-browserify.git#v1.2.0-a",
