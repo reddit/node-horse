@@ -8,6 +8,10 @@
 }
 
 .listing {
+  a:hover {
+    text-decoration: none;
+  }
+
   .panel-title {
     color: @black;
   }
@@ -30,13 +34,15 @@
     }
   }
 
-  .img-responsive {
+  .img-preview {
+    width: 100%;
+    max-height: 200px;
     object-fit: cover;
     object-position: center;
-    max-height: 200px;
-    width: 100%;
-    background-color: @brand-primary;
-    margin: 0;
+  }
+
+  .img-nsfw {
+    background-color: @brand-danger;
   }
 
   .listing-video iframe, .listing-video object {
@@ -45,14 +51,25 @@
   }
 
   .img-responsive, .listing-selftext {
+    margin: 0;
+    background-color: @brand-primary;
     .border-bottom-radius((@panel-border-radius));
+  }
+
+  .img-nsfw {
+    background-color: @brand-danger;
   }
 
   .listing-frame {
     position: relative;
-    padding-bottom: 80%;
-    height: 0;
-    overflow: hidden;
+    height: calc(~"100% - 200px");
+
+    /* fix ios8, ios5 iframe scrolling */
+    -webkit-overflow-scrolling: touch;
+    overflow-y: scroll;
+    -webkit-transform: translateZ(0px);
+    -webkit-transform: translate3d(0,0,0);
+    -webkit-perspective: 1000;
 
     iframe {
       position: absolute;
