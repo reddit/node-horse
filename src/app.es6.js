@@ -5,7 +5,7 @@ import { mutate } from 'react-mutator';
 import { EventEmitter } from 'events';
 
 // Import a generic, polymor
-import * as Router from 'express-router-pulled-out';
+import Router from 'express-router-pulled-out';
 
 // Import the api instance; we're going to share an instance between the
 // plugins.

@@ -2,20 +2,20 @@
 // This is the only code (besides gulpfile / index) that is *not* run on the
 // client.
 
-import * as q from 'q';
-import * as _ from 'lodash';
+import q from 'q';
+import _ from 'lodash';
 
 // Express and middleware
-import * as express from 'express';
-import * as favicon from 'serve-favicon';
-import * as bodyParser from 'body-parser';
-import * as cookieParser from 'cookie-parser';
-import * as compression from 'compression';
-import * as session from 'express-session';
-import * as csurf from 'csurf';
+import express from 'express';
+import favicon from 'serve-favicon';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import compression from 'compression';
+import session from 'express-session';
+import csurf from 'csurf';
 
 // For rendering
-import * as React from 'react';
+import React from 'react';
 
 // Plugins
 import plugins from './plugins';
@@ -27,8 +27,8 @@ import oauth from './oauth';
 // App config
 import config from './config';
 // Import built-asset manifests for passing to layouts
-import * as jsManifest from '../build/js/client-manifest.json';
-import * as cssManifest from '../build/css/css-manifest.json';
+import jsManifest from '../build/js/client-manifest.json';
+import cssManifest from '../build/css/css-manifest.json';
 
 // Then merge them into a single object for ease of use later
 config.manifest = {};

@@ -1,13 +1,13 @@
-import * as $ from 'jquery';
+import $ from 'jquery';
 global.jQuery = global.$ = $;
 
-import * as querystring from 'querystring';
+import querystring from 'querystring';
 
-import * as React from 'react';
-import * as q from 'q';
+import React from 'react';
+import q from 'q';
 
 import 'bootstrap';
-import * as attachFastClick from 'fastclick';
+import attachFastClick from 'fastclick';
 
 import App from '../../src/app';
 import config from '../../src/config';
@@ -112,7 +112,7 @@ function initialize(bindLinks) {
 
         return app.route(req, res);
       } else {
-        res.status(500).send('Yo dawg, I heard you liked errors, so I errored while rendering your error page');
+        console.log(response);
       }
     }
 

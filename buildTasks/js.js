@@ -15,8 +15,7 @@ var streamqueue = require('streamqueue');
 
 var browserify = require('browserify');
 var watchify = require('watchify');
-var reactify = require('reactify');
-var to5Browserify = require('6to5-browserify');
+var to5Browserify = require('6to5ify');
 var exorcist = require('exorcist');
 
 module.exports = function buildJS(gulp, buildjs) {
