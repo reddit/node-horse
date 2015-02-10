@@ -1,6 +1,6 @@
 {
   "name": "switcharoo",
-  "version": "0.3.6",
+  "version": "0.3.7",
   "description": "",
   "main": "src/app.es6.js",
   "scripts": {
@@ -31,7 +31,7 @@
     "serve-favicon": "2.2.0",
     "simple-oauth2": "0.2.1",
     "snoode": "0.2.2",
-    "reddit-text-js": "0.5.0",
+    "reddit-text-js": "0.5.1",
     "switcharoo-plugin-ads": "0.3.5",
     "switcharoo-plugin-core": "0.6.3",
     "switcharoo-plugin-metrics": "0.3.4"

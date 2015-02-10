@@ -36,8 +36,17 @@ module.exports = function buildJS(gulp, buildjs) {
       bundler = watchify(bundler);
     }
 
+    // Add in a few common dependencies so we don't end up browserifying
+    // multiple versions in dev, because `npm link` behaves really oddly at
+    // times
     bundler
+      .require('moment')
+      .require('q')
+      .require('react')
       .require('jquery')
+      .require('reddit-text-js')
+      .require('snoode')
+      .require('superagent')
       .require('./lib/snooboots/dist/js/bootstrap.js', {
         expose: 'bootstrap',
         depends: {
