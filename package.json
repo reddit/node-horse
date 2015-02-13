@@ -1,6 +1,6 @@
 {
   "name": "switcharoo",
-  "version": "0.3.9",
+  "version": "0.3.10",
   "description": "",
   "main": "src/app.es6.js",
   "scripts": {
@@ -47,7 +47,7 @@
     "gulp-livereload": "3.7.0",
     "gulp-minify-css": "0.4.3",
     "gulp-rename": "1.2.0",
-    "gulp-rev": "3.0.0",
+    "gulp-rev": "3.0.1",
     "gulp-rimraf": "0.1.1",
     "gulp-streamify": "0.0.5",
     "gulp-uglify": "1.1.0",
