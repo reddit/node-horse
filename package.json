@@ -1,6 +1,6 @@
 {
   "name": "switcharoo",
-  "version": "0.3.11",
+  "version": "0.3.12",
   "description": "",
   "main": "src/app.es6.js",
   "scripts": {
@@ -30,10 +30,10 @@
     "reddit-text-js": "0.5.1",
     "serve-favicon": "2.2.0",
     "simple-oauth2": "0.2.1",
-    "snoode": "0.2.2",
-    "switcharoo-plugin-ads": "0.3.7",
-    "switcharoo-plugin-core": "0.6.6",
-    "switcharoo-plugin-metrics": "0.3.6"
+    "snoode": "0.2.4",
+    "switcharoo-plugin-ads": "0.3.8",
+    "switcharoo-plugin-core": "0.6.7",
+    "switcharoo-plugin-metrics": "0.3.7"
   },
   "devDependencies": {
     "browserify": "8.1.3",
