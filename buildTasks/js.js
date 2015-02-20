@@ -15,7 +15,7 @@ var streamqueue = require('streamqueue');
 
 var browserify = require('browserify');
 var watchify = require('watchify');
-var to5Browserify = require('6to5ify');
+var babelify = require('babelify');
 var exorcist = require('exorcist');
 
 module.exports = function buildJS(gulp, buildjs) {
@@ -57,7 +57,7 @@ module.exports = function buildJS(gulp, buildjs) {
     bundler.add(entryFile);
 
     bundler
-      .transform(to5Browserify.configure({
+      .transform(babelify.configure({
         ignore: false,
         only: /.+(?:(?:\.es6\.js)|(?:.jsx))$/,
         extensions: ['.js', '.es6.js', '.jsx' ],
@@ -77,7 +77,7 @@ module.exports = function buildJS(gulp, buildjs) {
 
       var shims = streamqueue({ objectMode: true });
       shims.queue(gulp.src('public/js/es5-shims.js'));
-      shims.queue(gulp.src('node_modules/6to5/browser-polyfill.js'));
+      shims.queue(gulp.src('node_modules/babel/browser-polyfill.js'));
 
       shims.done()
         .pipe(concat('shims.js'))
