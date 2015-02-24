@@ -1,9 +1,0 @@
-{
-  "links": {
-    "switcharoo-plugin-core": "switcharoo-plugin-core",
-    "switcharoo-plugin-metrics": "switcharoo-plugin-metrics",
-    "switcharoo-plugin-ads": "switcharoo-plugin-ads",
-    "react-mutator": "react-mutator",
-    "snoode": "snoode"
-  }
-}
