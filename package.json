@@ -4,12 +4,18 @@
   "description": "isomorphic react app core",
   "main": "src/app.es6.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha --compilers es6.js:babel/register  --recursive ./test/"
   },
   "author": "reddit <jack@reddit.com>",
   "license": "MIT",
-  "dependencies": {
-  },
   "devDependencies": {
+    "babel": "^4.4.5",
+    "chai": "^2.1.0",
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2",
+    "sinon-chai": "^2.7.0"
+  },
+  "dependencies": {
+    "koa-router": "^4.2.0"
   }
 }

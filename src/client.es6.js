@@ -1,76 +1,38 @@
 import querystring from 'querystring';
-import App from '../app';
-
-// Get the current location.
-function fullPathName () {
-  return document.location.pathname + document.location.search;
-}
+import App from './app';
 
 class ClientApp extends App {
-  constructor (props) {
+  constructor (props = {}) {
     super(props);
 
-    if (props.render) {
-      this.render = props.render.bind(this);
-    }
-  }
-
-  get res () {
-    return {
-      render: this.render,
-      error: this.error,
-      redirect: this.redirect,
-    }
+    this.state = props.state || {};
   }
 
   // Server uses express sessions; on the client, we'll persist state in memory.
   getState (prop) {
     if (prop) {
       return this.state[prop];
+    } else if (typeof prop === 'undefined') {
+      return this.state;
     }
-
-    return this.state;
   }
 
   setState (prop, val) {
     this.state[prop] = val;
-    return v;
+    return val;
   }
 
   resetState (state) {
     this.state = state || {};
   }
 
-  render (res) {
-    console.log(res);
-  }
-
-  error (clientResponse, req, res, app) {
-    var status = clientResponse.status || 500;
-    var message = clientResponse.message || 'Unkown error';
-
-    var error = clientResponse.error;
-
-    var reroute = '/' + status;
-
-    if (req.url !== reroute) {
-      req.status = status;
-      req.url = '/' + status;
-
-      return app.route(req, res);
-    } else {
-      console.log(clientResponse);
-    }
-  }
-
-  redirect () {
-    this.changeUrl(path);
-  }
-
-  request (req) {
+  buildRequest (url) {
     var splitUrl = url.split('?');
     var query = {};
     var url = url || '/';
+
+    var pathName = this.fullPathName();
+    var session = this.getState('session') || {};
 
     if(splitUrl.length > 1) {
       url = splitUrl[0] || '/';
@@ -84,23 +46,16 @@ class ClientApp extends App {
       useCache: true,
       query: query,
       headers: {
-        referer: fullPathName(),
+        referer: pathName,
       },
-      session: app.getState('session') || {},
+      session: session,
     }
 
     return req;
   }
 
-  changeUrl (path, initial, referrer) {
-    var req = buildRequest(href, app);
-    req.headers.referer = referrer || req.headers.referer;
-
-    if (initial) {
-      req.props = this.getState()
-    }
-
-    app.route(req, this.res);
+  fullPathName () {
+    return document.location.pathname + document.location.search;
   }
 }
 
