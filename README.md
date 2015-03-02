@@ -130,5 +130,15 @@ Final Notes
 -----------
 
 * This is all ES6, so you'll want to use a transpiler; I like
-[babel](http://babeljs.io).
+[babel](http://babeljs.io). To get babel to work with npm modules, you'll
+need to turn off `ignore npm` and add `.es6.js` to the transpiled files, like
+so:
+```
+require('babel/register')({
+  ignore: false,
+  only: /.+(?:(?:\.es6\.js)|(?:.jsx))$/,
+  extensions: ['.js', '.es6.js', '.jsx' ],
+  sourceMap: true,
+});
+```
 * Tested with iojs 1.0.0 and later and node 0.10.30 and later.
