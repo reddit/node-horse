@@ -75,7 +75,7 @@ export default setupRoutes;
 import koa from 'koa';
 import React from 'react';
 
-import App from 'horse';
+import {App} from 'horse';
 import setupRoutes from './setupRoutes';
 
 var server = koa();
@@ -101,7 +101,7 @@ example.
 
 ```javascript
 import React from 'react';
-import ClientApp from 'horse';
+import {ClientApp} from 'horse';
 
 import setupRoutes from './setupRoutes';
 

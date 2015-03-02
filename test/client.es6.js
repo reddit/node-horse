@@ -10,7 +10,7 @@ var expect = chai.expect;
 
 chai.use(sinonChai)
 
-import ClientApp from '../src/client';
+import {ClientApp} from '../index';
 var render;
 
 function buildCtx (path, data) {
