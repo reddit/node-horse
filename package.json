@@ -4,7 +4,7 @@
   "description": "isomorphic react app core",
   "main": "./index.es6.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --compilers es6.js:babel/register --recursive ./test/"
+    "test": "./node_modules/mocha/bin/mocha ./test/index.js"
   },
   "author": "reddit <jack@reddit.com>",
   "license": "MIT",

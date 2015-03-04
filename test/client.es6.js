@@ -1,7 +1,3 @@
-require('6to5/register')({
-  extensions: ['.js', '.es6.js']
-});
-
 import chai from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
