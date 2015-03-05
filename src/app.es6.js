@@ -6,28 +6,7 @@ import Router from 'koa-router';
 // Custom errors for fun and profit.
 import RouteError from './routeError';
 
-function async(generatorFunction) {
-  return function(/*...args*/) {
-    var generator = generatorFunction.apply(this, arguments);
-    return new Promise(function(resolve, reject) {
-      function resume(method, value) {
-        try {
-          var result = generator[method](value);
-          if (result.done) {
-            resolve(result.value);
-          } else {
-            result.value.then(resumeNext, resumeThrow);
-          }
-        } catch (e) {
-          reject(e);
-        }
-      }
-      var resumeNext = resume.bind(null, 'next');
-      var resumeThrow = resume.bind(null, 'throw');
-      resumeNext();
-    });
-  };
-}
+import co from 'co';
 
 class App {
   constructor (config) {
@@ -52,16 +31,16 @@ class App {
   route (ctx, next) {
     this.emit('route:start', ctx);
     var middleware = this.router.routes().call(ctx);
+    var app = this;
 
-    async(function * (ctx, app, next) {
-      try {
-        yield* middleware;
-        next.call(ctx);
-        app.emit('route:end', ctx);
-      } catch (e) {
-        return app.error(new RouteError(ctx.path), ctx, app, next);
-      }
-    })(ctx, this, next);
+    co(function * () {
+      yield* middleware;
+    }).then(function () {
+      next.call(ctx);
+      app.emit('route:end', ctx);
+    }, function (err) {
+      return app.error(new RouteError(ctx.path), ctx, app, next);
+    });
   }
 
   registerPlugin (plugin) {

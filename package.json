@@ -16,6 +16,7 @@
     "sinon-chai": "^2.7.0"
   },
   "dependencies": {
+    "co": "^4.4.0",
     "koa-router": "^4.2.0"
   }
 }

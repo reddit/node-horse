@@ -101,9 +101,9 @@ describe('App', function() {
         throw 'EVERTHING IS WRONG';
       });
 
-      app.route(ctx);
-
-      expect(app.error).to.have.been.calledOnce;
+      app.route(ctx, function() {
+        expect(app.error).to.have.been.calledOnce;
+      });
     });
 
     it('can redirect to /404 on 404s', function(done) {
