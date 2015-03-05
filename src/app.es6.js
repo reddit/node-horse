@@ -6,6 +6,29 @@ import Router from 'koa-router';
 // Custom errors for fun and profit.
 import RouteError from './routeError';
 
+function async(generatorFunction) {
+  return function(/*...args*/) {
+    var generator = generatorFunction.apply(this, arguments);
+    return new Promise(function(resolve, reject) {
+      function resume(method, value) {
+        try {
+          var result = generator[method](value);
+          if (result.done) {
+            resolve(result.value);
+          } else {
+            result.value.then(resumeNext, resumeThrow);
+          }
+        } catch (e) {
+          reject(e);
+        }
+      }
+      var resumeNext = resume.bind(null, 'next');
+      var resumeThrow = resume.bind(null, 'throw');
+      resumeNext();
+    });
+  };
+}
+
 class App {
   constructor (config) {
     this.config = config;
@@ -30,24 +53,15 @@ class App {
     this.emit('route:start', ctx);
     var middleware = this.router.routes().call(ctx);
 
-    try {
-      var res = middleware.next();
-    } catch (e) {
-      // if this fails, it's due to a missing path
-      return this.error(new RouteError(ctx.path), ctx, this, next);
-    }
-
-    try {
-      while (res.done === false) {
-        res = middleware.next();
+    async(function * (ctx, app, next) {
+      try {
+        yield* middleware;
+        next.call(ctx);
+        app.emit('route:end', ctx);
+      } catch (e) {
+        return app.error(new RouteError(ctx.path), ctx, app, next);
       }
-
-      if(next) next.call(ctx);
-    } catch (e) {
-      this.error(e, ctx, this, next);
-    }
-
-    this.emit('route:end', ctx);
+    })(ctx, this, next);
   }
 
   registerPlugin (plugin) {

@@ -47,7 +47,6 @@ describe('App', function() {
       var spy = sinon.spy();
 
       var route = function *() {
-        console.log('is a thing');
         spy();
       }
 
@@ -65,10 +64,22 @@ describe('App', function() {
       var app = new App();
       var ctx = buildCtx(path);
 
-      var route = function *(next) {
-        yield setTimeout(next, 1000);
-        this.a = 'b';
+      function get (data, cb) {
+        setTimeout(function() {
+          cb(data);
+        }, 500);
       }
+
+      function wrappedGet(data, ctx) {
+        return new Promise(function(resolve) {
+          get(data, resolve);
+        });
+      }
+
+      var route = function *(next) {
+        var data = yield wrappedGet('b');
+        this.a = data;
+      };
 
       var path = '/';
 
@@ -76,6 +87,32 @@ describe('App', function() {
 
       app.route(buildCtx(path), function() {
         expect(this.a).to.equal('b');
+        done();
+      });
+    });
+
+    it('can error gracefully', function() {
+      var app = new App();
+      var ctx = buildCtx('/');
+
+      sinon.stub(app, 'error');
+
+      app.router.get('/', function(req, res, next) {
+        throw 'EVERTHING IS WRONG';
+      });
+
+      app.route(ctx);
+
+      expect(app.error).to.have.been.calledOnce;
+    });
+
+    it('can redirect to /404 on 404s', function(done) {
+      var app = new App();
+      var ctx = buildCtx('/');
+
+      app.route(ctx, function() {
+        expect(ctx.redirect).to.have.been.calledOnce;
+        expect(ctx.redirect).to.have.been.calledWith(404, '/404');
         done();
       });
     });

@@ -85,25 +85,5 @@ describe('ClientApp', function() {
 
       ctx = buildCtx('/');
     });
-
-    it('can error gracefully', function() {
-      sinon.stub(client, 'error');
-
-      client.router.get('/', function(req, res, next) {
-        throw 'EVERTHING IS WRONG';
-      });
-
-      client.route(ctx);
-
-      expect(client.error).to.have.been.calledOnce;
-    });
-
-    it('can redirect to /404 on 404s', function(done) {
-      client.route(ctx, function() {
-        expect(ctx.redirect).to.have.been.calledOnce;
-        expect(ctx.redirect).to.have.been.calledWith(404, '/404');
-        done();
-      });
-    });
   });
 });
