@@ -40,6 +40,7 @@ class ClientApp extends App {
     }
 
     var req = {
+      path: url,
       url: url,
       method: 'GET',
       renderSynchronous: false,

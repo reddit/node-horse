@@ -28,18 +28,21 @@ class App {
   // Accepts routes / history changes, and forwards on the req object and
   // the response (a `defer` object). The last param, `function`, can be safely
   // ignored - it's fired after handling.
-  route (ctx, next) {
+  route (ctx) {
     this.emit('route:start', ctx);
     var middleware = this.router.routes().call(ctx);
     var app = this;
 
-    co(function * () {
+    return co(function * () {
       yield* middleware;
     }).then(function () {
-      next.call(ctx);
       app.emit('route:end', ctx);
     }, function (err) {
-      return app.error(new RouteError(ctx.path), ctx, app, next);
+      if(this.config.debug) {
+        console.log(err, err.stack);
+      }
+
+      return app.error(new RouteError(ctx.path), ctx, app);
     });
   }
 
@@ -57,7 +60,7 @@ class App {
     this.emitter.on.apply(this, args);
   }
 
-  error (err, ctx, app, next) {
+  error (err, ctx, app) {
     var status = err.status || 500;
     var message = err.message || 'Unkown error';
 
@@ -66,7 +69,6 @@ class App {
 
     if (ctx.request.url !== url) {
       ctx.redirect(status, url);
-      if(next) next();
     } else {
       // Critical failure! The error page is erroring! Abandon all hope
       console.log(err);
