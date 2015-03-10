@@ -35,15 +35,15 @@ class App {
 
     return co(function * () {
       yield* middleware;
-    }).then(function () {
-      app.emit('route:end', ctx);
-    }, function (err) {
+    }).then(() => {
+      this.emit('route:end', ctx);
+    }, (err) => {
       if(this.config.debug) {
         console.log(err, err.stack);
       }
 
-      return app.error(new RouteError(ctx.path), ctx, app);
-    });
+      return this.error(new RouteError(ctx.path), ctx, app);
+    }.bind(this));
   }
 
   registerPlugin (plugin) {

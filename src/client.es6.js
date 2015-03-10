@@ -32,7 +32,6 @@ class ClientApp extends App {
     var url = url || '/';
 
     var pathName = this.fullPathName();
-    var session = this.getState('session') || {};
 
     if(splitUrl.length > 1) {
       url = splitUrl[0] || '/';
@@ -49,7 +48,6 @@ class ClientApp extends App {
       headers: {
         referer: pathName,
       },
-      session: session,
     }
 
     return req;
