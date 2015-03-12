@@ -1,6 +1,6 @@
 {
   "name": "horse",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "isomorphic react app core",
   "main": "./index.es6.js",
   "scripts": {

@@ -60,6 +60,10 @@ class App {
     this.emitter.on.apply(this, args);
   }
 
+  off (...args) {
+    this.emitter.off.apply(this, args);
+  }
+
   error (err, ctx, app) {
     var status = err.status || 500;
     var message = err.message || 'Unkown error';
