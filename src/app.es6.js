@@ -33,6 +33,16 @@ class App {
     var middleware = this.router.routes().call(ctx);
     var app = this;
 
+    var match = this.router.match(ctx.path).filter((r) => {
+      return ~r.methods.indexOf(ctx.method);
+    }).length;
+
+    if (!match) {
+      return function * () {
+        app.error(new RouteError(ctx.path), ctx, app);
+      }
+    }
+
     return co(function * () {
       yield* middleware;
     }).then(() => {
@@ -42,7 +52,7 @@ class App {
         console.log(err, err.stack);
       }
 
-      return this.error(new RouteError(ctx.path), ctx, app);
+      this.error(err, ctx, app);
     }.bind(this));
   }
 
