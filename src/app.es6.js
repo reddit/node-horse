@@ -71,7 +71,7 @@ class App {
   }
 
   off (...args) {
-    this.emitter.off.apply(this, args);
+    this.emitter.removeListener.apply(this, args);
   }
 
   error (err, ctx, app) {
