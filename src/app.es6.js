@@ -63,15 +63,15 @@ class App {
   }
 
   emit (...args) {
-    this.emitter.emit.apply(this, args);
+    this.emitter.emit.apply(this.emitter, args);
   }
 
   on (...args) {
-    this.emitter.on.apply(this, args);
+    this.emitter.on.apply(this.emitter, args);
   }
 
   off (...args) {
-    this.emitter.removeListener.apply(this, args);
+    this.emitter.removeListener.apply(this.emitter, args);
   }
 
   error (err, ctx, app) {
