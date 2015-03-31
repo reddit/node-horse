@@ -6,6 +6,12 @@ applications for io.js / node. It abstracts routing and rendering helpers so
 that you can plug in a rendering system, bind links, and have an application
 that works anywhere.
 
+The vast bulk of your application will live in your routes file (`routes.jsx`
+in the example below), your API library, and your views - and will be shared
+between the server and the client. horse's job is to get out of the way so that
+you don't care where the code is running, and yet you get both server-side and
+client-side rendering.
+
 A Brief Overview
 ----------------
 
@@ -96,9 +102,6 @@ server.use(function *(next) {
 
 `client.es6.js`
 
-You'll want to add push state too, but that's outside the scope of our
-example.
-
 ```javascript
 import React from 'react';
 import {ClientApp} from 'horse';
@@ -129,10 +132,11 @@ $(function() {
 Final Notes
 -----------
 
-* This is all ES6, so you'll want to use a transpiler; I like
+* This is all written using ES6, so you'll need to use a transpiler; I like
 [babel](http://babeljs.io). To get babel to work with npm modules, you'll
 need to turn off `ignore npm` and add `.es6.js` to the transpiled files, like
 so:
+
 ```
 require('babel/register')({
   ignore: false,
@@ -141,4 +145,5 @@ require('babel/register')({
   sourceMap: true,
 });
 ```
+
 * Tested with iojs 1.0.0 and later and node 0.10.30 and later.
