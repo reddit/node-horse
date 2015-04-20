@@ -38,9 +38,9 @@ class App {
     }).length;
 
     if (!match) {
-      return function * () {
+      return co(function * () {
         app.error(new RouteError(ctx.path), ctx, app);
-      }
+      });
     }
 
     return co(function * () {
