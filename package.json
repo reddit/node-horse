@@ -1,13 +1,15 @@
 {
   "name": "horse",
-  "version": "1.2.0",
   "description": "isomorphic react app core",
-  "main": "./index.es6.js",
-  "scripts": {
-    "test": "./node_modules/mocha/bin/mocha ./test/index.js"
-  },
+  "version": "1.2.0",
   "author": "reddit <jack@reddit.com>",
-  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/reddit/horse/issues"
+  },
+  "dependencies": {
+    "co": "^4.4.0",
+    "koa-router": "^4.2.0"
+  },
   "devDependencies": {
     "babel": "^5.0.0",
     "chai": "^2.1.0",
@@ -15,8 +17,19 @@
     "sinon": "^1.12.2",
     "sinon-chai": "^2.7.0"
   },
-  "dependencies": {
-    "co": "^4.4.0",
-    "koa-router": "^4.2.0"
+  "homepage": "https://github.com/reddit/horse",
+  "keywords": [
+    "application",
+    "es6",
+    "isomorphic"
+  ],
+  "license": "MIT",
+  "main": "index.es6.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reddit/horse.git"
+  },
+  "scripts": {
+    "test": "mocha test/index.js"
   }
 }
