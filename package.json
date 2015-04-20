@@ -1,7 +1,7 @@
 {
   "name": "horse",
-  "description": "isomorphic react app core",
-  "version": "1.2.0",
+  "description": "isomorphic app core",
+  "version": "1.2.1",
   "author": "reddit <jack@reddit.com>",
   "bugs": {
     "url": "https://github.com/reddit/horse/issues"

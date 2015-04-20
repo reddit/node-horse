@@ -43,24 +43,27 @@ describe('App', function() {
     });
 
     it('calls routes', function(done) {
+      var path = '/';
+
       var app = new App();
       var spy = sinon.spy();
+      var ctx = buildCtx(path);
 
-      var route = function *() {
+      var route = function * (next) {
         spy();
       }
 
-      var path = '/';
-
       app.router.get(path, route);
 
-      app.route(buildCtx(path), function() {
+      app.route(ctx).then(function() {
         expect(spy).to.have.been.calledOnce;
         done();
       });
     });
 
     it('plays nice with async', function(done) {
+      var path = '/';
+
       var app = new App();
       var ctx = buildCtx(path);
 
@@ -76,17 +79,15 @@ describe('App', function() {
         });
       }
 
-      var route = function *(next) {
+      var route = function * (next) {
         var data = yield wrappedGet('b');
         this.a = data;
       };
 
-      var path = '/';
-
       app.router.get(path, route);
 
-      app.route(buildCtx(path), function() {
-        expect(this.a).to.equal('b');
+      app.route(ctx).then(function() {
+        expect(ctx.a).to.equal('b');
         done();
       });
     });
@@ -101,7 +102,7 @@ describe('App', function() {
         throw 'EVERTHING IS WRONG';
       });
 
-      app.route(ctx, function() {
+      app.route(ctx).then(function() {
         expect(app.error).to.have.been.calledOnce;
       });
     });
@@ -110,9 +111,9 @@ describe('App', function() {
       var app = new App();
       var ctx = buildCtx('/');
 
-      app.route(ctx, function() {
+      app.route(ctx).then(function() {
         expect(ctx.redirect).to.have.been.calledOnce;
-        expect(ctx.redirect).to.have.been.calledWith(404, '/404');
+        expect(ctx.redirect).to.have.been.calledWith('/404', '/404');
         done();
       });
     });
