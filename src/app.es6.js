@@ -82,6 +82,7 @@ class App {
     var url = '/' + status;
 
     if (ctx.request.url !== url) {
+      ctx.set('Cache-Control', 'no-cache');
       ctx.redirect(reroute, url);
     } else {
       // Critical failure! The error page is erroring! Abandon all hope

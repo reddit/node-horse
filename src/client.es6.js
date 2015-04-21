@@ -48,6 +48,9 @@ class ClientApp extends App {
       headers: {
         referer: pathName,
       },
+      //noop
+      set: function(header, value) {
+      }
     }
 
     return req;
