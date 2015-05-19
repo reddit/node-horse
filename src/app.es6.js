@@ -38,16 +38,30 @@ class App {
 
     var match = this.router.match(ctx.path).filter((r) => {
       return ~r.methods.indexOf(ctx.method);
-    }).length;
+    });
 
-    if (!match) {
+    if (!match.length) {
       return co(function * () {
         app.error(new RouteError(ctx.path), ctx, app);
       });
     }
 
     return co(function * () {
+      if (app.startRequest.length) {
+        app.startRequest.forEach(function(f) {
+          // pre-set it for the startRequest call
+          ctx.route = match[0];
+          return f.call(ctx, app);
+        });
+      }
+
       yield* middleware;
+
+      if (app.endRequest.length) {
+        app.endRequest.forEach(function(f) {
+          return f.call(ctx, app);
+        });
+      }
     }).then(() => {
       this.emit('route:end', ctx);
     }, (err) => {
