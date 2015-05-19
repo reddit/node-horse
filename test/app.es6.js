@@ -19,6 +19,7 @@ function buildCtx (path, data) {
     path: request.path,
     method: request.method,
     redirect: sinon.spy(),
+    set: sinon.spy(),
   };
 }
 
@@ -113,7 +114,7 @@ describe('App', function() {
 
       app.route(ctx).then(function() {
         expect(ctx.redirect).to.have.been.calledOnce;
-        expect(ctx.redirect).to.have.been.calledWith('/404', '/404');
+        expect(ctx.redirect).to.have.been.calledWith('/404?originalUrl=%2F');
         done();
       });
     });

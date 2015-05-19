@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+import querystring from 'querystring';
 
 // Import a simple router that works anywhere.
 import Router from 'koa-router';
@@ -9,7 +10,7 @@ import RouteError from './routeError';
 import co from 'co';
 
 class App {
-  constructor (config) {
+  constructor (config={}) {
     this.config = config;
 
     // The router listens to web requests (or html5 history changes) and fires
@@ -41,8 +42,9 @@ class App {
     });
 
     if (!match.length) {
-      return co(function * () {
+      return new Promise(function(resolve) {
         app.error(new RouteError(ctx.path), ctx, app);
+        resolve();
       });
     }
 
@@ -92,17 +94,21 @@ class App {
   }
 
   error (err, ctx, app) {
-    this.emit('error', err, ctx, app);
-
     var status = err.status || 500;
     var message = err.message || 'Unkown error';
 
     var reroute = '/' + status;
     var url = '/' + status;
 
+    var query = querystring.stringify({
+      originalUrl: ctx.request.url || '/',
+    });
+
+    url += '?' + query;
+
     if (ctx.request.url !== url) {
       ctx.set('Cache-Control', 'no-cache');
-      ctx.redirect(reroute, url);
+      ctx.redirect(url);
     } else {
       // Critical failure! The error page is erroring! Abandon all hope
       console.log(err);
