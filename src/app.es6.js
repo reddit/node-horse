@@ -17,6 +17,9 @@ class App {
     this.router = new Router();
     this.emitter = new EventEmitter();
 
+    this.startRequest = config.startRequest || [];
+    this.endRequest = config.endRequest || [];
+
     this.plugins = [];
   }
 
