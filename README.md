@@ -132,6 +132,28 @@ $(function() {
 Final Notes
 -----------
 
+Default events:
+
+```
+app.on('route:start', function(ctx){})
+app.on('route:end', function(ctx){})
+app.on('route:end', function(error, ctx, app){})
+```
+
+You can also add an array of request start / end functions that operate per
+request, instead of globally on the app:
+
+```
+app.startRequest.push(function(app, server) {
+  if (server) { console.log('started on the server'); }
+});
+
+app.endRequest.push(function(app, server) {
+  if (server) { console.log('started on the server'); }
+});
+```
+
+
 * This is all written using ES6, so you'll need to use a transpiler; I like
 [babel](http://babeljs.io). To get babel to work with npm modules, you'll
 need to turn off `ignore npm` and add `.es6.js` to the transpiled files, like

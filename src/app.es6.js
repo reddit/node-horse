@@ -75,6 +75,8 @@ class App {
   }
 
   error (err, ctx, app) {
+    this.emit('error', err, ctx, app);
+
     var status = err.status || 500;
     var message = err.message || 'Unkown error';
 
