@@ -43,14 +43,12 @@ class App {
         resolve();
       });
     }
-
+   ctx.route = route;
    var middleware = co.wrap(route.middleware).call(ctx).catch(ctx.onerror);
 
     return co(function * () {
       if (app.startRequest.length) {
         app.startRequest.forEach(function(f) {
-          // pre-set it for the startRequest call
-          ctx.route = route;
           return f.call(ctx, app);
         });
       }
