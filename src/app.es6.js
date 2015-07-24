@@ -92,8 +92,7 @@ class App {
   error (err, ctx, app) {
     var status = err.status || 500;
     var message = err.message || 'Unkown error';
-
-    var reroute = '/' + status;
+    
     var url = '/' + status;
 
     var query = querystring.stringify({
@@ -101,14 +100,7 @@ class App {
     });
 
     url += '?' + query;
-
-    if (ctx.request.url !== url) {
-      ctx.set('Cache-Control', 'no-cache');
-      ctx.redirect(url);
-    } else {
-      // Critical failure! The error page is erroring! Abandon all hope
-      console.log(err);
-    }
+    ctx.redirect(url);
   }
 }
 
