@@ -47,6 +47,7 @@ class App {
    var middleware = co.wrap(route.middleware).call(ctx).catch(ctx.onerror);
 
     return co(function * () {
+      ctx.route = route;
       if (app.startRequest.length) {
         app.startRequest.forEach(function(f) {
           return f.call(ctx, app);
