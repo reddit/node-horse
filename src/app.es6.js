@@ -34,30 +34,28 @@ class App {
   // ignored - it's fired after handling.
   route (ctx) {
     this.emit('route:start', ctx);
-    var middleware = this.router.routes().call(ctx);
     var app = this;
+    var {route} = this.router.match(ctx.path, ctx.method)
 
-    var match = this.router.match(ctx.path).filter((r) => {
-      return ~r.methods.indexOf(ctx.method);
-    });
-
-    if (!match.length) {
+    if (!route) {
       return new Promise(function(resolve) {
         app.error(new RouteError(ctx.path), ctx, app);
         resolve();
       });
     }
 
+   var middleware = co.wrap(route.middleware).call(ctx).catch(ctx.onerror);
+
     return co(function * () {
       if (app.startRequest.length) {
         app.startRequest.forEach(function(f) {
           // pre-set it for the startRequest call
-          ctx.route = match[0];
+          ctx.route = route;
           return f.call(ctx, app);
         });
       }
 
-      yield* middleware;
+      yield middleware;
 
       if (app.endRequest.length) {
         app.endRequest.forEach(function(f) {
@@ -70,7 +68,6 @@ class App {
       if(this.config.debug) {
         console.log(err, err.stack);
       }
-
       this.error(err, ctx, app);
     }.bind(this));
   }
