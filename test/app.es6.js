@@ -99,7 +99,7 @@ describe('App', function() {
 
       sinon.stub(app, 'error');
 
-      app.router.get('/', function(req, res, next) {
+      app.router.get('/', function *(next) {
         throw 'EVERTHING IS WRONG';
       });
 
