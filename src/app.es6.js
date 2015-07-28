@@ -108,7 +108,6 @@ class App {
 
     if (ctx.request.url !== url) {
       ctx.set('Cache-Control', 'no-cache');
-      ctx.redirect(url);
     } else {
       // Critical failure! The error page is erroring! Abandon all hope
       console.log(err);
