@@ -1,5 +1,4 @@
 import { EventEmitter } from 'events';
-import querystring from 'querystring';
 
 // Import a simple router that works anywhere.
 import Router from 'koa-router';
@@ -96,18 +95,14 @@ class App {
   error (err, ctx, app) {
     var status = err.status || 500;
     var message = err.message || 'Unkown error';
-
-    var reroute = '/' + status;
     var url = '/' + status;
-
-    var query = querystring.stringify({
-      originalUrl: ctx.request.url || '/',
-    });
-
-    url += '?' + query;
 
     if (ctx.request.url !== url) {
       ctx.set('Cache-Control', 'no-cache');
+      ctx.originalUrl = ctx.originalUrl || ctx.request.url;
+      ctx.path = url;
+
+      this.route(ctx);
     } else {
       // Critical failure! The error page is erroring! Abandon all hope
       console.log(err);
