@@ -92,20 +92,24 @@ class App {
     this.emitter.removeListener.apply(this.emitter, args);
   }
 
-  error (err, ctx, app) {
-    var status = err.status || 500;
-    var message = err.message || 'Unkown error';
+  error (e, ctx) {
+    var status = e.status || 500;
+    var message = e.message || 'Unkown error';
     var url = '/' + status;
+
+    if (this.config.debug) {
+      console.log(e, e.stack);
+    }
 
     if (ctx.request.url !== url) {
       ctx.set('Cache-Control', 'no-cache');
       ctx.originalUrl = ctx.originalUrl || ctx.request.url;
       ctx.path = url;
 
-      this.route(ctx);
+      ctx.redirect(url);
     } else {
       // Critical failure! The error page is erroring! Abandon all hope
-      console.log(err);
+      console.log(e, e.stack);
     }
   }
 }
