@@ -71,7 +71,7 @@ class App {
       }
 
       this.error(err, ctx, app);
-    }.bind(this));
+    });
   }
 
   registerPlugin (plugin) {
