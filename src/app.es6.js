@@ -36,8 +36,8 @@ class App {
     var middleware = this.router.routes().call(ctx);
     var app = this;
 
-    var match = this.router.match(ctx.path).filter((r) => {
-      return ~r.methods.indexOf(ctx.method);
+    var match = this.router.match(ctx.path).layers.filter((r) => {
+      return !r.methods || ~r.methods.indexOf(ctx.method);
     });
 
     if (!match.length) {

@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "co": "^4.4.0",
-    "koa-router": "^4.2.0"
+    "koa-router": "^5.1.2"
   },
   "devDependencies": {
     "babel": "^5.0.0",

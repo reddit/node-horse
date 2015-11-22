@@ -107,17 +107,6 @@ describe('App', function() {
         expect(app.error).to.have.been.calledOnce;
       });
     });
-
-    it('can redirect to /404 on 404s', function(done) {
-      var app = new App();
-      var ctx = buildCtx('/');
-
-      app.route(ctx).then(function() {
-        expect(ctx.redirect).to.have.been.calledOnce;
-        expect(ctx.redirect).to.have.been.calledWith('/404?originalUrl=%2F');
-        done();
-      });
-    });
   });
 
   describe('event emitter', function() {
