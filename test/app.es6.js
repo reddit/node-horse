@@ -114,7 +114,7 @@ describe('App', function() {
 
       app.route(ctx).then(function() {
         expect(ctx.redirect).to.have.been.calledOnce;
-        expect(ctx.redirect).to.have.been.calledWith('/404?originalUrl=%2F');
+        expect(ctx.redirect).to.have.been.calledWith('/404');
         done();
       });
     });
