@@ -13,6 +13,7 @@
   "devDependencies": {
     "babel": "^5.0.0",
     "chai": "^2.1.0",
+    "eslint": "^1.10.3",
     "mocha": "^2.1.0",
     "sinon": "^1.12.2",
     "sinon-chai": "^2.7.0"
@@ -30,6 +31,7 @@
     "url": "https://github.com/reddit/horse.git"
   },
   "scripts": {
-    "test": "mocha test/index.js"
+    "test": "mocha test/index.js",
+    "lint": "eslint . --ext .js,.jsx"
   }
 }
