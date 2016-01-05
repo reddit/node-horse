@@ -1,6 +1,8 @@
 horse
 =====
 
+[![Build Status](https://travis-ci.org/reddit/horse.svg)](https://travis-ci.org/reddit/horse)
+
 horse is a couple of helper classes that can be used to help you build isomorphic
 applications for io.js / node. It abstracts routing and rendering helpers so
 that you can plug in a rendering system, bind links, and have an application
